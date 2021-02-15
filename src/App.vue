@@ -1,28 +1,44 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="app" class="flex">
+        <side-bar :selected="selectedTab" :tabs="dynamicComponents" @tabChange="changeSelectedTab" />
+        <div class="bg-gray-100 h-screen w-full">
+            <start-bussiness v-if="selectedTab == 'start'" />
+            <company-type v-else-if="selectedTab == 'company'" />
+            <board-directors v-else-if="selectedTab == 'board'" />
+        </div>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SideBar from './components/SideBar.vue';
+import StartBussiness from './components/StartBussiness.vue';
+import CompanyType from './components/CompanyType.vue';
+import BoardDirectors from './components/BoardDirectors.vue';
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    name: 'App',
+    components: {
+        SideBar,
+        StartBussiness,
+        CompanyType,
+        BoardDirectors,
+    },
+    data() {
+        return {
+            dynamicComponents: [
+                { name: 'Start Bussiness', slug: 'start', completed: false },
+                { name: 'Company Type', slug: 'company', completed: false },
+                { name: 'Board of Directors', slug: 'board', completed: false },
+            ],
+            selectedTab: 'start',
+        };
+    },
+    methods: {
+        changeSelectedTab(value) {
+            this.selectedTab = value;
+        },
+    },
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
