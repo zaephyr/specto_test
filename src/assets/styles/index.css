@@ -1,3 +1,7 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.error {
+    @apply absolute -bottom-4 left-2 text-sm self-start ml-2 text-red-400;
+}
