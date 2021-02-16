@@ -113,9 +113,13 @@ export default {
                 let nonCompletedForms = this.dynamicComponents.filter((el) => !el.completed).map((el) => el.name);
                 this.finalMsg.type = 'ERROR';
                 this.finalMsg.msg = `Please complete ${nonCompletedForms.join(' and ')} forms!`;
+                setTimeout(() => {
+                    this.finalMsg.type = '';
+                    this.finalMsg.msg = '';
+                }, 3500);
             } else {
                 this.finalMsg.type = 'SUCCESS';
-                this.finalMsg.msg = 'Application recieved';
+                this.finalMsg.msg = 'Application recieved!';
                 console.log(this.finalForm);
             }
         },

@@ -73,7 +73,9 @@
                                 'border-2 border-red-500': $v.directorsForms.$each[index].firstName.$error,
                             }"
                         />
-
+                        <div class="error" v-if="!$v.directorsForms.$each[index].firstName">
+                            Only use alphabet characters
+                        </div>
                         <div class="error" v-if="!$v.directorsForms.$each[index].firstName.alpha">
                             Only use alphabet characters
                         </div>
