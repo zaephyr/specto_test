@@ -2,24 +2,26 @@
     <div id="app" class="flex">
         <side-bar :selected="selectedTab" :tabs="dynamicComponents" @tabChange="changeSelectedTab" />
         <div class="bg-gray-100 h-screen w-full">
-            <start-business
-                v-if="selectedTab == 'start'"
-                :companyEmail="finalForm.email"
-                @saveEmail="addFinalFormEmail"
-                @tabChange="selectedTab = 'company'"
-            />
-            <company-type
-                v-else-if="selectedTab == 'company'"
-                :firmType="finalForm.companyType"
-                @saveCompanyType="addFinalFormCompanyType"
-                @tabChange="selectedTab = 'board'"
-            />
-            <board-directors
-                v-else-if="selectedTab == 'board'"
-                :team="finalForm.boardDirectors"
-                :finalMsg="finalMsg"
-                @saveTeam="addFinalFormBoardDirectors"
-            />
+            <transition name="component-fade" mode="out-in">
+                <start-business
+                    v-if="selectedTab == 'start'"
+                    :companyEmail="finalForm.email"
+                    @saveEmail="addFinalFormEmail"
+                    @tabChange="selectedTab = 'company'"
+                />
+                <company-type
+                    v-else-if="selectedTab == 'company'"
+                    :firmType="finalForm.companyType"
+                    @saveCompanyType="addFinalFormCompanyType"
+                    @tabChange="selectedTab = 'board'"
+                />
+                <board-directors
+                    v-else-if="selectedTab == 'board'"
+                    :team="finalForm.boardDirectors"
+                    :finalMsg="finalMsg"
+                    @saveTeam="addFinalFormBoardDirectors"
+                />
+            </transition>
         </div>
     </div>
 </template>
@@ -121,4 +123,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.component-fade-enter-active,
+.component-fade-leave-active {
+    transition: opacity 0.7s ease;
+}
+.component-fade-enter,
+.component-fade-leave-to {
+    opacity: 0;
+}
+</style>

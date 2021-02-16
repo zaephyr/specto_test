@@ -13,8 +13,7 @@
                 <div class="flex flex-col w-full py-2 px-0 mx-auto lg:w-2/3 sm:flex-row md:px-8">
                     <div class="relative  w-1/2 mr-4">
                         <input
-                            v-model.trim="requiredForm.firstName"
-                            @input="$v.$touch()"
+                            v-model.trim.lazy="$v.requiredForm.firstName.$model"
                             class="flex-grow w-full px-4 py-2 mb-4 text-base text-black transition duration-1000 ease-in-out transform rounded-lg bg-blueGray-200 focus:outline-none focus:border-purple-500 sm:mb-0 focus:bg-white focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2"
                             placeholder="First Name"
                             type="text"
@@ -38,8 +37,7 @@
                     </div>
                     <div class="relative w-1/2">
                         <input
-                            v-model="requiredForm.lastName"
-                            @input="$v.$touch()"
+                            v-model.trim.lazy="$v.requiredForm.lastName.$model"
                             class="flex-grow w-full px-4 py-2 mb-4 mr-4 text-base text-black transition duration-1000 ease-in-out transform rounded-lg bg-blueGray-200 focus:outline-none focus:border-purple-500 sm:mb-0 focus:bg-white focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2"
                             placeholder="Last Name"
                             type="text"

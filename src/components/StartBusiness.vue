@@ -16,8 +16,7 @@
             >
                 <div class="relative w-full mr-4">
                     <input
-                        v-model.trim="formEmail"
-                        @input="$v.$touch()"
+                        v-model.trim.lazy="$v.formEmail.$model"
                         placeholder="Your Email"
                         type="email"
                         class="flex-grow w-full px-4 py-2 mb-4  text-base text-black transition duration-1000
