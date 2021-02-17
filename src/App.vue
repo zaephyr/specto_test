@@ -3,24 +3,13 @@
         <side-bar :selected="selectedTab" :tabs="dynamicComponents" @tabChange="changeSelectedTab" />
         <div class="bg-gray-100 h-screen w-full">
             <transition name="component-fade" mode="out-in">
-                <start-business
-                    v-if="selectedTab == 'start'"
-                    :companyEmail="finalForm.email"
-                    @saveEmail="addFinalFormEmail"
-                    @tabChange="selectedTab = 'company'"
-                />
-                <company-type
-                    v-else-if="selectedTab == 'company'"
-                    :firmType="finalForm.companyType"
-                    @saveCompanyType="addFinalFormCompanyType"
-                    @tabChange="selectedTab = 'board'"
-                />
-                <board-directors
-                    v-else-if="selectedTab == 'board'"
-                    :team="finalForm.boardDirectors"
-                    :finalMsg="finalMsg"
-                    @saveTeam="addFinalFormBoardDirectors"
-                />
+                <keep-alive>
+                    <component
+                        :is="selectedTab"
+                        v-bind="dynamicComponentData.props"
+                        v-on="dynamicComponentData.listeners"
+                    />
+                </keep-alive>
             </transition>
         </div>
     </div>
@@ -46,18 +35,18 @@ export default {
             dynamicComponents: [
                 {
                     name: 'Start Business',
-                    slug: 'start',
+                    slug: 'start-business',
                     completed: false,
                 },
-                { name: 'Company Type', slug: 'company', completed: false },
-                { name: 'Board of Directors', slug: 'board', completed: false },
+                { name: 'Company Type', slug: 'company-type', completed: false },
+                { name: 'Board of Directors', slug: 'board-directors', completed: false },
             ],
             finalForm: {
                 email: '',
                 companyType: {},
                 boardDirectors: [],
             },
-            selectedTab: 'start',
+            selectedTab: 'start-business',
             finalMsg: {
                 type: '',
                 msg: '',
@@ -71,7 +60,45 @@ export default {
             boardDirectors: { required },
         },
     },
-
+    computed: {
+        dynamicComponentData() {
+            if (this.selectedTab === 'start-business') {
+                return {
+                    props: {
+                        companyEmail: this.finalForm.email,
+                    },
+                    listeners: {
+                        saveEmail: this.addFinalFormEmail,
+                        tabChange: () => {
+                            this.selectedTab = 'company-type';
+                        },
+                    },
+                };
+            } else if (this.selectedTab === 'company-type') {
+                return {
+                    props: {
+                        firmType: this.finalForm.companyType,
+                    },
+                    listeners: {
+                        saveCompanyType: this.addFinalFormCompanyType,
+                        tabChange: () => {
+                            this.selectedTab = 'board-directors';
+                        },
+                    },
+                };
+            } else if (this.selectedTab === 'board-directors') {
+                return {
+                    props: {
+                        team: this.finalForm.boardDirectors,
+                        finalMsg: this.finalMsg,
+                    },
+                    listeners: {
+                        saveTeam: this.addFinalFormBoardDirectors,
+                    },
+                };
+            }
+        },
+    },
     methods: {
         changeSelectedTab(value) {
             this.selectedTab = value;
@@ -79,7 +106,7 @@ export default {
         addFinalFormEmail(value) {
             this.finalForm.email = value;
             this.$v.$touch();
-            let startBusinessDynamicComponent = this.dynamicComponents.find((el) => el.slug == 'start');
+            let startBusinessDynamicComponent = this.dynamicComponents.find((el) => el.slug == 'start-business');
             if (this.$v.finalForm.email.$invalid) {
                 startBusinessDynamicComponent.completed = false;
             } else {
@@ -89,7 +116,7 @@ export default {
         addFinalFormCompanyType(value) {
             this.finalForm.companyType = value;
             this.$v.$touch();
-            let companyTypeDynamicComponent = this.dynamicComponents.find((el) => el.slug == 'company');
+            let companyTypeDynamicComponent = this.dynamicComponents.find((el) => el.slug == 'company-type');
             if (this.$v.finalForm.companyType.$invalid) {
                 companyTypeDynamicComponent.completed = false;
             } else {
@@ -99,7 +126,7 @@ export default {
         addFinalFormBoardDirectors(value) {
             this.finalForm.boardDirectors = value;
             this.$v.$touch();
-            let boardDynamicComponent = this.dynamicComponents.find((el) => el.slug == 'board');
+            let boardDynamicComponent = this.dynamicComponents.find((el) => el.slug == 'board-directors');
             if (this.$v.finalForm.boardDirectors.$invalid) {
                 boardDynamicComponent.completed = false;
             } else {

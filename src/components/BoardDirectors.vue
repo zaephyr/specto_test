@@ -125,8 +125,13 @@
             <p class="text-right" v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
             <p class="text-right" v-if="submitStatus === 'PENDING'">Saving...</p>
         </div>
-        <p class="text-center text-green-400" v-if="finalMsg.type === 'SUCCESS'">{{ finalMsg.msg }}</p>
-        <p class="text-center text-red-400" v-if="finalMsg.type === 'ERROR'">{{ finalMsg.msg }}</p>
+        <p
+            class="text-center"
+            :class="[finalMsg.type === 'SUCCESS' ? 'text-green-400' : 'text-red-400']"
+            v-if="!!finalMsg.type"
+        >
+            {{ finalMsg.msg }}
+        </p>
     </section>
 </template>
 
@@ -199,5 +204,3 @@ export default {
     },
 };
 </script>
-
-<style></style>
