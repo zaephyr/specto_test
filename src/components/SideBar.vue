@@ -1,9 +1,10 @@
 <template>
     <div class="w-56 h-screen flex">
-        <ul class="ml-4 my-auto li-menu">
+        <ul class="ml-4 my-auto">
             <li
                 v-for="(tab, index) in tabs"
                 :key="index"
+                class="mt-3 font-bold  opacity-90"
                 :class="{ 'text-blue-600 underline': selected == tab.slug, 'text-gray-400': tab.completed }"
                 @click="toggleComponent(tab.slug)"
             >
@@ -26,12 +27,8 @@ export default {
 };
 </script>
 <style scoped>
-.li-menu > li {
-    @apply mt-3 font-bold  opacity-90;
-}
-
-.li-menu > li:hover,
-.li-menu > li:active {
+li:hover,
+li:active {
     @apply cursor-pointer text-blue-600 underline;
 }
 </style>

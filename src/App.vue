@@ -105,37 +105,22 @@ export default {
         },
         addFinalFormEmail(value) {
             this.finalForm.email = value;
-            this.$v.$touch();
             let startBusinessDynamicComponent = this.dynamicComponents.find((el) => el.slug == 'start-business');
-            if (this.$v.finalForm.email.$invalid) {
-                startBusinessDynamicComponent.completed = false;
-            } else {
-                startBusinessDynamicComponent.completed = true;
-            }
+            startBusinessDynamicComponent.completed = this.$v.finalForm.email.$invalid ? false : true;
         },
         addFinalFormCompanyType(value) {
             this.finalForm.companyType = value;
-            this.$v.$touch();
             let companyTypeDynamicComponent = this.dynamicComponents.find((el) => el.slug == 'company-type');
-            if (this.$v.finalForm.companyType.$invalid) {
-                companyTypeDynamicComponent.completed = false;
-            } else {
-                companyTypeDynamicComponent.completed = true;
-            }
+            companyTypeDynamicComponent.completed = this.$v.finalForm.companyType.$invalid ? false : true;
         },
         addFinalFormBoardDirectors(value) {
             this.finalForm.boardDirectors = value;
-            this.$v.$touch();
+
             let boardDynamicComponent = this.dynamicComponents.find((el) => el.slug == 'board-directors');
-            if (this.$v.finalForm.boardDirectors.$invalid) {
-                boardDynamicComponent.completed = false;
-            } else {
-                boardDynamicComponent.completed = true;
-                this.consoleLogResult();
-            }
+            boardDynamicComponent.completed = this.$v.finalForm.boardDirectors.$invalid ? false : true;
+            boardDynamicComponent.completed && this.consoleLogResult();
         },
         consoleLogResult() {
-            this.$v.$touch();
             if (this.$v.$invalid) {
                 let nonCompletedForms = this.dynamicComponents.filter((el) => !el.completed).map((el) => el.name);
                 this.finalMsg.type = 'ERROR';

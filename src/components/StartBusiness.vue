@@ -79,7 +79,6 @@ export default {
     },
     methods: {
         saveEmail() {
-            this.$v.$touch();
             if (this.$v.$invalid) {
                 this.submitStatus = 'ERROR';
             } else {
